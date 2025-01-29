@@ -5,3 +5,31 @@ What is the role of DevOps and cloud in modern Software Development?
 What is use of crontab ? could you please write shell command on crontab ?
 
 What is the command for creating new branch in Git ?
+===========
+1.what is inode
+2.what is softlink
+3.what is hard link
+4.what is boot process in linux
+5.how do you check running processes on linux
+6.what is /etc
+7.what is /var
+8.what is git pull
+9.what is git fetch
+10.what is the diff between git pull and git fetch
+11.what are the plugins u used in jenkins
+12.what is thin backup plugin
+13.what is ansible
+14.how ansible different from other tools like chef nd puppet
+15.what is ansible role
+16.what is handler in ansible
+17.what is docker file
+18.what are components of docker
+19.what is auto healing and auto scaling in k8s
+20.what is replicaset
+21.what is terraform
+22. What are terraform init, plan and apply
+23. What is terraform module
+24. ⁠what is terraform workspace
+25. ⁠what is cloudfront
+26. ⁠what is cloud watch
+27. ⁠what is vpc (edited) 
