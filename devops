@@ -33,3 +33,18 @@ What is the command for creating new branch in Git ?
 25. ⁠what is cloudfront
 26. ⁠what is cloud watch
 27. ⁠what is vpc (edited) 
+=================
+Terraform Variables concepts
+
+Declare Variables:
+------------------
+
+Declare variables within your Terraform configurations using the variable block. Specify the variable name, type, and default value (if applicable).
+
+Reference Variables:
+--------------------
+Reference variables throughout your Terraform configuration using interpolation syntax ${var.variable_name}. This allows you to access the values of variables and use them within resource definitions, expressions, or modules.
+
+Input Variable Values:
+---------------------
+Input variable values can be provided via various methods, including command-line flags, environment variables, or variable definition files. This allows for dynamic configuration based on different environments or deployment scenarios.
