@@ -48,3 +48,53 @@ Reference variables throughout your Terraform configuration using interpolation 
 Input Variable Values:
 ---------------------
 Input variable values can be provided via various methods, including command-line flags, environment variables, or variable definition files. This allows for dynamic configuration based on different environments or deployment scenarios.
+=====
+20/2/2025:
+=========
+1st round Interview Questions asked for SRE role..
+
+Commands used for Kubernetes,Docker and Ansible..
+Explain Kubernetes Structure, Config Map and Schedular..
+3.How do you troubleshoot Imagepull backoff error ?
+Explain installation of prometheus and grafana..
+Explain how you build CICD pipeline..
+How we monitor cpu matrics in grafana?
+How do you grant access to user?
+
+----
+
+
+Explain OSI models
+How do you did cost optimization in AWS?
+Explain on Lambda, CFT, Data Storage, S3 ?
+How do you implement best security policies on AWS?
+What factor motivates you for this role?
+6, Explain how you did your cloud migration?
+
+---
+Here is the list of questions,
+
+1. Write a Terraform code to create multiple S3 buckets
+2. How you managed statefile
+3. So how are you managing the conflict? State file conflicts
+4. what you did with Jenkins?
+5. How are you integrating the SonarQube with the Jenkins serve...
+---
+From one of the linkedin post > interview experience happened yesterday (08-02-2025). . 1. Write a Terraform code to create multiple S3 buckets
+How you managed statefile
+So how are you managing the conflict? State file conflicts
+what you did with Jenkins?
+How are you integrating the SonarQube with the Jenkins server?
+How were you authenticating Jenkins to push docker image to registery?
+Have you worked on the Kubernetes?So what deployment strategy are you following?
+So how are you implementing the blue green deployment?
+Do you know what is HPA?
+suppose you deploy one application okay and you found some issue, you wanted to roll back using the kubernetes how you roll back to the particular version, what is the command?
+What is the stateful set in the Kubernetes?
+Have you worked on the AWS, right?
+So how many types of policy, IAM policy are there? IAM policies?
+So what is the difference between the S3 bucket policies and acls?
+what is the dynamic auto scaling?
+What is the difference between Security groups and NACL?
+
+--
