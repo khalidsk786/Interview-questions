@@ -96,5 +96,109 @@ So how many types of policy, IAM policy are there? IAM policies?
 So what is the difference between the S3 bucket policies and acls?
 what is the dynamic auto scaling?
 What is the difference between Security groups and NACL?
+25/2/2025
+-----------
+1.tell me abt yout self 
+2.explain kubernetes architect 
+3.have you worked on hybrid environment with AKS 
+4.how do u implement cost optimization on AKS
+ 5. Difference between terraform and ansible 
+ 6.have u worked on Prometheus
+  7.have you worked on isolated environment  
+  8.explain ci/cd 9.what is the advantage of using AKS rather than using kubernetes
 
---
+-------------
+this is a company called "Glabant". it was a devops role :                                                          Can you explain your experience with AWS services?
+
+If we are going to implement a solution for microservices, how would you propose a solution to implement a microservices architecture?
+
+
+
+Why do you prefer to start with EKS instead of ECS?
+
+   
+Follow-up: What are the capabilities of EKS that make it a better choice over ECS for this project?
+
+How would you configure the Elastic Load Balancer to work against the EKS cluster?
+
+How many public subnets and private subnets are you going to use in the VPC?
+
+In which subnets are you going to locate the ECS cluster and the RDS instances?
+
+
+How would you handle multiple environments (development, staging, production) using Terraform?
+
+
+Can you explain the steps involved in creating a CICD pipeline for deploying a Spring Boot application to ECS?
+
+Can you share your experience in handling a large number of servers and your administrative responsibilities?
+
+    
+Follow-up: What kind of administrative tasks and responsibilities have you had in managing a large number of servers?
+
+Are you available to work online from Monday to Friday for the first six months and visit client offices twice a week?
+
+----------
+here are all the questions the interviewer asked during the discussion, including the follow-up questions:
+
+Can you tell me about a time when you realized you needed a level of subject matter expertise to do your job well? What did you do about that?
+What was the situation where you needed deeper expertise?
+What did you do to acquire that deeper knowledge?
+What was the result of gaining that expertise?
+
+Can you give me an example of a complex problem that you solved with a simple solution?
+What parts of the solution did you directly implement or change?
+How did you know the solution addressed the problem? Were there any metrics or changes you observed?
+
+What is the name of the physical address of a device on a network called?
+
+Do you know what DNS stands for and what it does?
+When you type in a website address in your browser, how does DNS resolve that in the background?
+
+Can you name some standard directories in a Linux system?
+
+How would you troubleshoot a full file system on a Linux server?
+Can you provide some examples of standard directories in a Linux system?
+How would you specifically troubleshoot a full file system? What commands would you use?
+
+How would you monitor system performance and manage processes on a Linux server?
+How would you monitor system performance and identify processes consuming high resources?
+
+Do you have any questions about the role at Amazon?
+
+---------
+Use of Route53
+Git stash
+Difference between S3 and EBS
+difference between git fetch and git pull
+What is the difference between vertical and horizontal scaling?
+What is the role of continuous integration?
+-----------
+Explain OSI models
+How do you did cost optimization in AWS?
+Explain on Lambda, CFT, Data Storage, S3 ?
+How do you implement best security policies on AWS?
+What factor motivates you for this role?
+6, Explain how you did your cloud migration?
+--------
+1st round Interview Questions asked for SRE role..
+
+Commands used for Kubernetes,Docker and Ansible..
+Explain Kubernetes Structure, Config Map and Schedular..
+3.How do you troubleshoot Imagepull backoff error ?
+Explain installation of prometheus and grafana..
+Explain how you build CICD pipeline..
+How we monitor cpu matrics in grafana?
+How do you grant access to user?
+ 
+-----------
+
+Here is the list of questions,
+
+1. Write a Terraform code to create multiple S3 buckets
+2. How you managed statefile
+3. So how are you managing the conflict? State file conflicts
+4. what you did with Jenkins?
+5. How are you integrating the SonarQube with the Jenkins serve...
+
+
