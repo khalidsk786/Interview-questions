@@ -1023,4 +1023,40 @@ L1 round done with HCL for 4-5 YOE role
 9. Where do you write the code/yaml file for pipeline 
 10. What is inside docker file
 11. How to schedule pipeline, lets say i have validated the pipeline with some update and i want to schedule it to stage/main branch, how to do? (This also someone explain)
----------
+---------28/3/2025
+----------------------
+Today attended F2F interview with LTIMindtree
+Here are the questions :
+
+- Can we install docker inside a container.
+
+- If we have created 3 instances using terraform script and the instance names are mentioned as a list
+  Suppose we removed 2nd instance name from the list and applied script again then what will happen to the already 3 instances created before.
+
+- If we have 5 stages in a jenkins pipeline and 5th stage having syntax error then what will happen if we run the pipeline.
+
+- What are some main differences between scripted and declarative pipeline.
+
+- Difference between code quality and code coverage.
+
+- What is default qualitygate in sonar
+
+- How to run a yaml manifest without a yaml manifest file created.
+
+------------28/3/2025
+Oracle Interview Questions 
+
+Experience - 8 years's
+
+What's the purpose of using init containers in K8s
+Stateful vs deployment in k8s
+Configmap VS secrets 
+Pod Distribution budget in k8s
+Explain me all the steps for multi stage docker image
+Cron expression to schedule a job in Linux
+What are the layer's you will get in Docker while building 
+When you're trying to deploy a POD, it's  throwing an error, how will you investigate.
+How to deploy a POD into a certain NODE?
+Explain me all the components present under deployment.yaml file
+If TF statefile is corrupted, how to fix it ?
+TF Lifecycle (create / after destroy)
