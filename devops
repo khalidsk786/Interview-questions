@@ -304,8 +304,6 @@ What is the primary purpose of Prometheus in a cloud environment?
 
 An Ubuntu server on AWS has run out of disk space, how would you handle this situation?
 
-
-
 Operational questions
 
 (Can access any information, including AI)
@@ -1060,3 +1058,89 @@ How to deploy a POD into a certain NODE?
 Explain me all the components present under deployment.yaml file
 If TF statefile is corrupted, how to fix it ?
 TF Lifecycle (create / after destroy)
+
+===========
+
+AWS Services and General Cloud Concepts
+List service names that are most familiar in AWS.
+
+One service that is mostly used by you in day-to-day activities.
+
+Difference between NAT Gateway & NAT Instance.
+
+In NAT Instance what AMI will you use? Is it a generic or specific AMI?
+
+How to enable versioning on AWS S3 Bucket?
+
+If a file is added to S3, will it create a new version or use the existing version?
+
+What are the permissions that we can define for an S3 bucket?
+
+If we want to copy a file from EC2 to S3 Bucket, how to make sure the connection is not going through a public network?
+
+What is a Lambda function in AWS? Usages with examples.
+
+What is VPC Endpoints?
+
+What is a Routing Table? What's the role of Routing Table (RT) in VPC?
+
+If I am not using a default Routing Table in my VPC, how can you configure or make sure subnets are communicated?
+
+How are resources communicated inside a subnet?
+
+What is meant by EventBridge and its use cases?
+
+Explain the projects which you have done so far? (e.g., 90 days Rotational keys project)
+
+What is ELB? What is meant by session affinity in ELB?
+
+What is Route 53? What are the types of records in Route 53?
+
+Terraform (Infrastructure as Code)
+Explain Terraform Lifecycle.
+
+How to provision instances using Terraform? Commands that are used?
+
+How does Terraform know that it's an implicit/explicit dependency?
+
+How to reuse the same module which is already defined in Terraform code?
+
+How to define required variables/optional variables in Terraform?
+
+Kubernetes (EKS) and ArgoCD
+What is AWS EKS? Use case of add-ons on AWS with examples.
+
+How to upgrade EKS cluster versions? Examples?
+
+What if ArgoCD is not syncing? What steps do you take to resolve the issue?
+
+How does ArgoCD know that the current deployment is not the desired state & how does it make the deployment?
+
+What's the system behind ArgoCD?
+
+Docker & DevOps Tools
+What are the best practices that need to be followed while creating a Docker image?
+
+Difference between Docker ADD & Docker COPY?
+
+If the size of the Docker image is 1 GB, how to reduce the image size?
+
+What is CloudWatch? How to configure CloudWatch?
+
+Stages in CI & CD Pipeline?
+
+How to trigger ARGOCD?
+
+What are build parameters in Jenkins?
+
+=============
+Yes <@1359592112647311431> HCL attended last month for devops role 6+ exp. They mostly focused on cicd and git
+
+1.  Cicd flow in your org
+2. Branching strategy 
+3. Hotfix branch and if issue happens in prod then how it is solved thru hotfix
+4. In which repo codes are stored and how that repo is accessed
+5. What is PAT
+6. Output of sonarqube and how to configure sonarqube 
+7. What is self hosted agent and have you used it, if yes explain the process
+8. If 2 dev working on same file and got conflict while creating PR then how to resolve
