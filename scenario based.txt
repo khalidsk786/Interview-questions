@@ -330,4 +330,141 @@ Designation : DevOps Engineer
 23. How do you generate Kubernetes cluster credentials?
 24. Do you only update Docker images in Kubernetes, or do you also update replicas, storage levels, and CPU allocation?
 walmart.png
- =======
+ ============================
+ Scenarios:
+
+1. What happens in the background when you run "kubectl apply -f pod.yaml"?
+-------------------
+kubectl apply updates the cluster’s desired state, and Kubernetes makes the actual state match it.
+
+2. How will you troubleshoot when a pod returns with an OOM (Out Of Memory) error?
+kubctl logs pods<pod-nmae>
+kubectl describe pod <pod-name>
+ 
+
+3. You’re getting a CrashLoopBackOff error so what steps will you take to troubleshoot it?
+
+kubectl describe pod <pod-name>
+kubectl logs <pod-name> --previous
+kubectl logs <pod-name> -c <container-name>
+
+4. What does an ImagePullBackOff error mean, and how do you resolve it?
+-------------------
+Wrong image name or tag:
+Typo in the image name or version
+
+5. What types of Kubernetes upgrade strategies do you know? When should each one be used? Explain with respect to cost optimization and minimizing downtime.
+Rolling Update (Default)
+Kubernetes updates Pods gradually, creating new ones and terminating old ones step by step.
+What it is:
+Run two environments:
+Blue: Current version.
+Green: New version.
+Switch traffic to Green when it’s ready.
+6. How will you troubleshoot when users face latency in the pod?
+kubctl top pod <pod-name>
+kubectl exec -it <pod-name> -- /bin/sh
+
+7. You are the DevOps engineer handling production. The application works fine locally, but users complain of downtime. What steps will you take to troubleshoot this?
+kubectl get pods
+kubectl describe pod <pod-name>
+kubectl exec -it <pod-name> -- curl http://<service-name>:<port>
+kubectl top pods
+kubectl top nodes
+kubectl get svc
+
+8. Let’s say your application is deployed on Kubernetes. What happens in the background when a user clicks the login button? Describe how the request flows through the Kubernetes components.
+Key Kubernetes components in this flow:
+Ingress Controller → Routes external requests to Services.
+
+Service → Load balances requests to Pods.
+
+Pod → Runs the container with your app logic.
+
+kube-proxy → Handles low-level network routing.
+
+etcd & API server → Not directly in the path, but manage config/state.
+
+9. How does Kubernetes determine that a readiness probe is ready to take the traffic?
+A Readiness Probe checks if a container is ready to serve traffic.
+If it passes, Kubernetes adds the Pod to the Service endpoints.
+If it fails, Kubernetes removes the Pod from the Service — so it stops getting traffic.
+
+⚙️ CI/CD 
+
+1. Which CI/CD tools have you worked with in your projects? Which one are you most comfortable and proficient with?
+
+“I have worked with several CI/CD tools in my projects, including Jenkins, GitHub Actions, and GitLab CI. I have hands-on experience setting up pipelines for build, test, and deployment automation. Among these, I’m most comfortable and confident with GitHub Actions, because I’ve used it extensively to automate workflows, deploy to Kubernetes clusters, and integrate with other tools like Terraform and Docker.”
+
+2. What are Jenkins Shared Libraries, and why do we use them in pipelines?
+----------------------
+Jenkins Shared Libraries are reusable, versioned collections of pipeline code that you can share across multiple Jenkins pipelines.
+Why we use them:
+Reusability:
+Write common pipeline steps (like build, test, deploy) once and reuse them in many pipelines.
+
+Consistency:
+Ensure all teams/projects follow the same pipeline standards and best practices.
+
+Simpler Pipelines:
+Keep your Jenkinsfiles clean and simple — move complex Groovy scripts to the shared library.
+
+Version Control:
+Shared Libraries live in a Git repo, so they can be versioned and maintained just like your app code.
+
+3. Can you walk me through the different stages in your CI/CD pipeline and explain the overall workflow?
+1️⃣ Build:
+Code is built and packaged.
+2️⃣ Test:
+Runs unit tests and checks code quality.
+3️⃣ Store:
+Stores the build (like a Docker image) in a repository.
+4️⃣ Deploy:
+Deploys to Dev/QA for testing.
+5️⃣ Approve:
+Manual approval for production.
+6️⃣ Production Deploy:
+Deploys safely to production with zero/minimal downtime.
+
+4. How did you integrate SonarQube and OWASP ZAP with Jenkins in your pipeline?
+-------------------
+👉 SonarQube:
+Added the SonarQube plugin in Jenkins.
+Configured SonarQube server details in Jenkins settings.
+In the Jenkins pipeline, added a stage to run sonar-scanner to check code quality.
+Reports are sent to the SonarQube dashboard for analysis.
+👉 OWASP ZAP:
+Added a stage in the Jenkins pipeline to run OWASP ZAP as a security scan.
+Used ZAP CLI or Docker to scan the app URL.
+Generated a report (HTML or XML) for vulnerabilities.
+Integrated the report with Jenkins build results.
+
+5. Since you've used SonarQube, can you explain the kind of reports it generates? What exactly does SonarQube do in terms of code analysis?
+
+6. What security best practices did you follow while building and maintaining your CI/CD pipeline?
+
+7. What kind of issues or failures have you faced in your pipelines, and how did you go about troubleshooting them?
+
+8. What are the advantages and limitations of using Jenkins compared to other CI/CD tools like GitLab CI/CD?
+
+9. When using GitLab CI/CD, which type of runner do you recommend - GitLab-hosted runner or a self-hosted/private runner? Why?
+
+That’s it. I’ve shared everything I could recall. Hope this helps someone out there preparing. All the best! 
+11. Do you know about taints and tolerations? If so, how are they used?
+
+12. What are the use cases of ConfigMaps and Secrets? Can we attach them as volumes?
+
+13. How does RBAC work? How does it connect with the user?
+
+14. How do you give permissions to cluster-scoped resources? Which one is used?
+
+15. What are health probes? Explain what they do exactly.
+
+16. What are Kubernetes volumes and how do they work?
+
+17. What are storage classes in Kubernetes?
+
+18.What is Ingress? Why is it used? Explain its workflow.
+
+19. What do you mean by headless service? 
+

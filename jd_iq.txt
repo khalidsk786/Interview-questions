@@ -1,15 +1,98 @@
 1. What scripting languages are you familiar with?
+shell& Python
+
 2. What are artifacts in GitLab CI?
+Artifacts are the files or folders saved after a job finishes in GitLab CI.
+
 3. What is a private module registry in Terraform?
+It’s a private place to store and share Terraform modules within your organization — so teams can reuse code securely.
+module "vpc" {
+  source  = "app/vpc/aws"
+  version = "1.0.0"
+}
+----------------------
 4. If you delete the local Terraform state file and it's not stored in S3 or DynamoDB, how can you recover it?
+You cannot recover it automatically.
+You will need to:
+Manually import each resource using terraform import
+or
+Recreate the infrastructure and state file from scratch.
+✅ To avoid this in future, always use remote state storage (S3 + DynamoDB).
+
 5. How do you import resources into Terraform?
+terraform import <RESOURCE_TYPE>.<RESOURCE_NAME> <RESOURCE_ID>
+
 6. What is a dynamic block in Terraform?
+A dynamic block is used to generate repeated nested blocks in Terraform using a loop — helpful when you want to create multiple similar configurations without repeating code.
+
+variable "ports" {
+  default = [80, 443]
+}
+
+resource "aws_security_group" "example" {
+  name = "example-sg"
+
+  dynamic "ingress" {
+    for_each = var.ports
+    content {
+      from_port   = ingress.value
+      to_port     = ingress.value
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+}
+
 7. How can you create EC2 instances in two different AWS accounts simultaneously using Terraform?
+# Provider for Account 1
+provider "aws" {
+  alias   = "account1"
+  region  = "us-east-1"
+  profile = "account1-profile"
+}
+
+# Provider for Account 2
+provider "aws" {
+  alias   = "account2"
+  region  = "us-west-2"
+  profile = "account2-profile"
+}
+
+# EC2 in Account 1
+resource "aws_instance" "ec2_account1" {
+  provider = aws.account1
+  ami           = "ami-0123456789abcdef0"
+  instance_type = "t2.micro"
+}
+
+# EC2 in Account 2
+resource "aws_instance" "ec2_account2" {
+  provider = aws.account2
+  ami           = "ami-0abcdef1234567890"
+  instance_type = "t2.micro"
+}
+
 8. How do you handle an error stating that the resource already exists when creating resources with Terraform?
+-----------------
+terraform import <resource_type>.<resource_name> <resource_id>
+terraform state mv ab to abcdef
 9. How does Terraform refresh work?
+If someone changed a resource manually in AWS, terraform refresh will update the state to reflect that change — but won’t apply or modify anything.
+
 10. How would you upgrade Terraform plugins?
+-------
+terraform init -upgrade
+
 11. What are the different types of Kubernetes volumes?
+Use emptyDir for temp data.
+
+Use PVC with EBS for production databases.
+
+Use configMap/secret to inject configs or credentials.
+
+
 12. If a pod is in a crash loop, what might be the reasons, and how can you recover it?
+-------------------
 kubectl logs <pod-name>  
 | Reason                           | Example                                                                            |
 | -------------------------------- | ---------------------------------------------------------------------------------- |
@@ -31,6 +114,7 @@ kubectl logs <pod-name>
 | 💡 Use Case  | Databases (e.g., MySQL, Kafka, Cassandra)                  | Monitoring agents (e.g., Fluentd, Prometheus Node Exporter) |
 
 14. What is a sidecar container in Kubernetes, and what are its use cases?
+----------
 A sidecar container is a helper container that runs in the same Pod as your main application container.
 
 ➡️ They share the same network, storage, and lifecycle.
@@ -49,25 +133,249 @@ spec:
       image: log-collector
 
 15. If pods fail to start during a rolling update, what strategy would you use to identify the issue and rollback?
+---------
+kubectl logs <pod-name>
+kubectl describe pod <pod-name>
+kubectl rollout status deployment <deployment-name>
+kubectl rollout undo deployment <deployment-name>
+
 16. How can we enable communication between 500 AWS accounts internally?
+---------
+1. Use AWS Transit Gateway (Best Approach)
+Create a Transit Gateway in a central/shared networking account.
+Share the TGW with other accounts using Resource Access Manager (RAM).
+In each account:Attach VPCs to the TGW
+Scales well for 500+ accounts
+Centralized and secure communication
+2. Use VPC Peering (Not Recommended for 500)
+Create VPC peering connections between VPCs across accounts.
+Update route tables to enable traffic.
+Update route tables to route traffic via TGW.
+
 17. How to configure a solution where a Lambda function triggers on an S3 upload and updates DynamoDB?
+-----------
+How to trigger Lambda on S3 upload and update DynamoDB:
+Create an S3 bucket to receive files.
+
+Create a Lambda function with code to update DynamoDB.
+
+Add S3 trigger to the Lambda (on ObjectCreated event).
+
+Give permissions to Lambda to read S3 and write to DynamoDB.
+------
 18. What is the standard port for RDP?
-19. How do you configure a Windows EC2 instance to join an Active Directory domain?
+------------
+Port 3389
+19. How do you configure a Windows EC2 instance to join an Active Directory domain?###
 20. How can you copy files from a Linux server to an S3 bucket?
+---------
+aws s3 cp /path/to/folder s3://your-bucket-name/ --recursive
+
 21. What permissions do you need to grant for that S3 bucket?
+------------
+To upload files, you need:
+
+s3:PutObject → to upload
+
+s3:PutObjectAcl → if setting permissions
+
+s3:ListBucket → to view contents (optional)
 22. What are the different types of VPC endpoints and when do you use them?
+🧠 Easy to Remember:
+Type	Use For	Cost	Example Use
+Interface:	Most AWS services	Paid	EC2 → SNS, SQS, etc.
+Gateway:	S3, DynamoDB only	Free	EC2 → S3 privately
+GWLB:	Security appliances	Paid	EC2 traffic → firewall endpoint
+
 23. How to resolve an image pullback error when using an Alpine image pushed to ECR in a pipeline?
+Check image → Check tag → IAM → ECR login → Network → Retry
+
 24. What is the maximum size of an S3 object?
+--------
+5TB
 25. What encryption options do we have in S3?
+-------------
+ Easy Tip to Remember:(Server-Side Encryption with S3-managed keys)
+SSE-S3 → Simple,
+SSE-KMS → Secure & auditable,
+SSE-C → You control,
+Client-side → You encrypt before upload
 26. Can you explain IAM user, IAM role, and IAM group in AWS?
+IAM User
+A user represents a person or application.
+
+It has long-term credentials (like username & password or access keys).
+
+IAM Role
+
+A role is used to grant temporary access to AWS services.
+
+It has no credentials by default — you assume a role.
+
+Used by EC2, Lambda, or cross-account access.
+
+IAM Group
+
+A group is a collection of users.
+
+You attach policies to a group, and all users in that group get the permissions.
+
+
 27. What is the difference between an IAM role and an IAM policy document?
+---------------------------
+ IAM Role
+An identity you can assume to get temporary access to AWS resources.
+
+Used by EC2, Lambda, users, or other services.
+
+Does not have long-term credentials.
+
+Example: A role that allows EC2 to access S3.
+
+🔹 IAM Policy Document
+--------------------------
+A JSON document that defines what actions are allowed or denied.
+
+It is attached to roles, users, or groups.
+
+It tells what resources can be accessed and what actions are allowed.
+
+------------
 28. What are inline policies and managed policies?
+
+Inline Policies
+A policy directly attached to one user, group, or role.
+
+It’s embedded — only works with that identity.
+
+Harder to reuse or manage.
+
+🧠 Think: Custom rule written only for one person.
+
+🔹 Managed Policies
+Standalone policies you can attach to multiple users, groups, or roles.
+
+Two types:
+
+AWS-managed (created by AWS)
+
+Customer-managed (you create)
+
+Easier to reuse and manage centrally.
+
+🧠 Think: Reusable rulebook shared across teams.
+----------------------------------------------------
 29. How can we add a load balancer to Route 53?
-30. What are A records and CNAME records?
-31. What is the use of a target group in a load balancer?i
+---------------------
+ Steps to Add an ELB (Load Balancer) to Route 53:
+Create a Load Balancer
+
+Use Application Load Balancer (ALB) or Network Load Balancer (NLB) in your AWS account.
+
+Get the DNS name of the Load Balancer
+
+Looks like:
+my-loadbalancer-1234567890.us-east-1.elb.amazonaws.com
+
+Go to Route 53 → Hosted Zones
+
+Create a Record
+
+Type: A record (or Alias type)
+
+Name: e.g., app.example.com
+
+Alias Target: Choose the load balancer from the drop-down
+
+Save the record
+--------------------
+30. What are A records and CNAME records?   
+A Record
+Maps a domain name to an IP address.
+
+Example:
+example.com → 192.0.2.1
+
+✅ CNAME Record
+Maps a domain name to another domain name.
+
+Example:
+www.example.com → example.com
+------------
+31. What is the use of a target group in a load balancer?
+A target group is used to route traffic from the load balancer to one or more registered targets (like EC2 instances, Lambda, or IPs).
+-------------------
 32. If a target group is unhealthy, what might be the reasons?
+Always check:
+Health check config
+Target status
+Security groups
+App logs
+----------------
 33. Can you share your screen and write a Jenkins pipeline?
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Code') {
+            steps {
+                git 'https://github.com/your-repo/sample-app.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building the application...'
+                // e.g., sh 'npm install' or 'mvn clean package'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                // e.g., sh 'npm test' or 'pytest'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
+                // e.g., call a script or kubectl apply
+            }
+        }
+    }
+}
+
 34. How do you write parallel jobs in a Jenkins pipeline?
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Parallel Tasks') {
+            parallel {
+                stage('Test on Chrome') {
+                    steps {
+                        echo 'Running tests on Chrome...'
+                    }
+                }
+
+                stage('Test on Firefox') {
+                    steps {
+                        echo 'Running tests on Firefox...'
+                    }
+                }
+
+                stage('Lint Code') {
+                    steps {
+                        echo 'Linting code...'
+                    }
+                }
+            }
+        }
+    }
+}
+
 ============
 First Round: -
 TCS-Walk-In-F2F:
@@ -75,14 +383,52 @@ TCS-Walk-In-F2F:
 1.    Tell me about yourself?
 2.    Which scripting language you aware of?
 3.    Can you help to write Cron job to store the back-up file every week?
+      *     *     *     *     *
+|     |     |     |     |
+|     |     |     |     +----- Day of the week (0 - 7) (Sunday = 0 or 7)
+|     |     |     +------- Month (1 - 12)
+|     |     +--------- Day of the month (1 - 31)
+|     +----------- Hour (0 - 23)
++------------- Minute (0 - 59)
+chmod+x /home/ubuntu/backup.sh
+02**7 /home/ubuntu/backup.sh
+--------
 4.    What is the use of Top command?
+CPU usage
+Memory usage
+Running processes
+Process IDs (PIDs)
+-------------
 5.    What is the troubleshoot you will do for Network failures?
+--------------------------------
+Troubleshooting Network Failures:
+Check physical connections (cables, Wi-Fi, router).
+Verify IP configuration (using ip addr or ifconfig).
+Ping gateway or other hosts to check connectivity.
+Use traceroute or ping to find where the packet is dropping.
+Check firewall rules or security groups that might block traffic.
+Review logs or system messages for errors.
+Restart network services or the machine if needed.
 6.    What is the command you will run to know the port numbers?
+netstat -tuln
+
 7.    Do you aware of Ansible tower?
+Yes, I’m aware of Ansible Tower — it’s a web-based GUI and REST API for managing and automating Ansible playbooks, inventories, and workflows in a more user-friendly way.
 8.    Brief me about Ansible modules?
+Ansible Modules (Short List)
+file& directory Module:, copy, template, lineinfile, blockinfile
+package module:, yum, dnf, apt, pip
+Syatem :service, systemd, user, group, cron
+command module:, shell, raw
+cloud&Networking : ec2, s3, uri 
 9.    What is the purpose of Terraform refresh?
+
+terrafor refresh will update the statefile, if any manually changes occured,it will matcvhthe actual state of infrastructure
 10. What is the use of Provisioners in Terraform?
+------------
+Provisioners are used to run the scripts after the resources created or destroyed
 11. How can you handle the resource dependency ins Terraform?
+---------
 12. How many types of load-balancers you know?
 13. What are the migration tools you used in AWS for your migration project?
 14. How can you ensure that your application high availability?
@@ -613,3 +959,100 @@ DevOps Interview Questions:
 14. What is a GitHub workflow, and how is it used?
 15. How do you handle merge conflicts in Git?
 16. What steps do you take when a build fails in Jenkins?
+----------
+Capgemini
+Exp-9yrs 5yrs in devops 
+What is an Ansible playbook?
+How to install Ansible on Ubuntu and RedHat, and start services?
+How to create 3 users and map them to prod, task, and QA groups in a single task?
+How to include and input parameters in a playbook?
+What are Ansible roles?
+Use of templates in Ansible
+Difference between templates and roles
+How to initialize a role and push it to Ansible Galaxy for public use
+How to encrypt a playbook?
+How to execute a vault file?
+How to use an environmental variable for passwords?
+Create a MySQL dump from encrypted data using an Ansible playbook — how to execute the steps?
+How to execute on all DB servers excluding 1 server?
+How to shut down all servers using an ad-hoc command?
+How to reduce execution time on RDBMS server?
+How to do that from an Ansible file?
+How to increase debug log level?
+Difference between static and dynamic inventory
+🧠 Kubernetes
+What is the architecture of Kubernetes?
+kubectl apply command – how the services are used?
+Deployment YAML file
+What are labels and annotations?
+Traffic coming from outside to a cluster
+What is the control manager’s task?
+Node affinity and anti-affinity
+How to run 2 pods with one depending on another – how to set roles?
+What is taint and toleration?
+Reason for taint in worker nodes
+How to limit resources in Kubernetes?
+Blue-Green deployment
+Canary deployment
+What is CSI?
+---
+AWS Lambda function and Step Function
+What are autoscaling policies and their uses?
+What is a target probe in autoscaling?
+Which role to give to access services in AWS?
+How to configure a role to service accounts?
+Service account end-to-en
+How to create a secret service account?
+Static vs dynamic storage provisioning
+Type of error in pod label
+
+===========
+EPAM systems - 7 YOE - AWS DevOps Engineer
+
+Diff b/w ALB and NLB,
+Purpose of using VPC Endpoint with use case,
+Is it possible to take AMI details from Snapshots,
+How to check LB health details (monitoring) through AWS service,
+Diff type of instance profiles,
+AMI vs Snapshots,
+Development team changed the AMI configuration to ASG launch template, how will you make sure that the new version is deployed properly.,
+170.90.00.9/0 - Is Public IP or Private IP,
+How to find out if the provided IP is public or Private,
+192.90.90.88/12 - Is private or Host,
+TGW in AWS,
+Post connecting diff VPCs through TGW, I want to black the traffic of A to B and B to C, how to perform it,
+EC2 in a private subnet should receive inbound traffic, how to enable it ? → NOT NAT Gateway,
+Enabling tight security to my LB,
+Is it possible to add multiple LBs to my sub web pages,
+userdata in EC2,
+How to segregate the critical details from VPC flow logs,
+Diff b/w Fargate vs EKS worker nodes,
+Updating EKS cluster,
+ASG is active and the load is heavy, due to that two EC2 instances are launched, but EC2 provision is taking 2 to 3 mins of time because of the ASG terminating the instance, how to avoid it.,
+I've huge traffic coming between 5 PM to 8 PM daily, how to configure this in ASG,
+Can we create two diff CICR blocks 172. && 192. series in same VPC,
+Customizing WAF,
+Cloud Front configuration,
+AWS Image builder,
+Diff type of instances,
+If you're storing all your VPC Flow logs in S3 bucket, how to see that,
+API Gateway configuration,
+Diff between Private and Public IPs,
+Diff between Spot VS reserved instances,
+=============
+CTS questions -
+
+1.Day to day tasks
+2.How did you reduce the sizes of docker images?
+3.Explain the CICD pipeline used
+4.What have you done in Kubernetes?
+5.How did you write deployment files w.r.t microservices in your project and how did you configure services and ingress?
+6.Did you configure Ingress and Egress rules?
+7.What have you done in Terraform and how did you do the integration?
+8.Difference between Terraform destroy and refresh command
+9.How to prevent someone from running terraform destroy or destroying the infra?
+10.How did you do cost optimization in your project?
+11.Write Python script to differentiate items in a list based on whether the item starts with a or b - [‘abc’, ‘vca’, ‘abc’. ‘bca’]
+12.What have you done in Ansible?
+13.If an Ansible playbook keeps running for 2-3 hours, what are your next steps?
+14.Ansible Tower?
