@@ -89,8 +89,7 @@ Use emptyDir for temp data.
 Use PVC with EBS for production databases.
 
 Use configMap/secret to inject configs or credentials.
-
-
+--------------------------------------------
 12. If a pod is in a crash loop, what might be the reasons, and how can you recover it?
 -------------------
 kubectl logs <pod-name>  
@@ -267,7 +266,7 @@ Easier to reuse and manage centrally.
 ----------------------------------------------------
 29. How can we add a load balancer to Route 53?
 ---------------------
- Steps to Add an ELB (Load Balancer) to Route 53:
+Steps to Add an ELB (Load Balancer) to Route 53:
 Create a Load Balancer
 
 Use Application Load Balancer (ALB) or Network Load Balancer (NLB) in your AWS account.
